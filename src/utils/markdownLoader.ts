@@ -12,6 +12,7 @@ const documentRegistry = [
   { slug: 'quick-start', title: 'Quick Start', file: 'quick-start.md' },
   { slug: 'api', title: 'API Documentation', file: 'api.md' },
   { slug: 'configuration', title: 'Configuration', file: 'configuration.md' },
+  { slug: 'oracle_backup', title: 'Oracle Backup', file: 'oracle_backup.md' },
 ];
 
 export const loadMarkdownDocs = async (): Promise<MarkdownDoc[]> => {
