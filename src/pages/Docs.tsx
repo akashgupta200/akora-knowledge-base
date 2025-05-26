@@ -7,7 +7,7 @@ import { getDocBySlug, MarkdownDoc } from '../utils/markdownLoader';
 const Docs = () => {
   const [isDark, setIsDark] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedSections, setExpandedSections] = useState<string[]>(['getting-started', 'tutorials']);
+  const [expandedSections, setExpandedSections] = useState<string[]>(['getting-started']);
   const [currentDoc, setCurrentDoc] = useState<MarkdownDoc | null>(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -42,9 +42,9 @@ const Docs = () => {
       const path = location.pathname;
       
       // Extract slug from path
-      const slug = path.replace('/docs/', '');
+      const slug = path.replace('/docs/', '').replace('/docs', '');
       
-      if (slug && slug !== 'docs') {
+      if (slug && slug !== '') {
         const doc = await getDocBySlug(slug);
         setCurrentDoc(doc);
       } else {
@@ -72,13 +72,17 @@ Use the sidebar to navigate through different sections of the documentation. Eac
 
 ## Adding New Documents
 
-To add new markdown documents to this site, create \`.md\` files in the \`docs\` folder and update the document loader to include them. Each markdown file supports:
+To add new markdown documents to this site:
 
-- Full markdown syntax
-- Code syntax highlighting
-- Tables and lists
-- Images and links
-- GitHub Flavored Markdown extensions`
+1. **Create a markdown file** in the \`public/docs/\` folder (e.g., \`my-new-doc.md\`)
+2. **Add it to the document registry** in \`src/utils/markdownLoader.ts\`:
+   \`\`\`javascript
+   { slug: 'my-new-doc', title: 'My New Document', file: 'my-new-doc.md' }
+   \`\`\`
+3. **Add navigation link** in \`src/pages/Docs.tsx\` navigationItems array
+4. **Add route** in \`src/App.tsx\` if needed
+
+That's it! Your document will automatically be loaded and displayed.`
         });
       }
       setLoading(false);
@@ -94,36 +98,8 @@ To add new markdown documents to this site, create \`.md\` files in the \`docs\`
       items: [
         { title: 'Introduction', path: '/docs/introduction' },
         { title: 'Quick Start', path: '/docs/quick-start' },
-        { title: 'Installation', path: '/docs/installation' },
-        { title: 'Setup Guide', path: '/docs/setup' },
-        { title: 'Adding Documents', path: '/docs/add-documents' },
-      ]
-    },
-    {
-      id: 'tutorials',
-      title: 'Tutorials',
-      items: [
-        { title: 'Basic Tutorial', path: '/docs/basic-tutorial' },
-        { title: 'Advanced Concepts', path: '/docs/advanced-concepts' },
-        { title: 'Best Practices', path: '/docs/best-practices' },
-      ]
-    },
-    {
-      id: 'reference',
-      title: 'Reference',
-      items: [
         { title: 'API Documentation', path: '/docs/api' },
         { title: 'Configuration', path: '/docs/configuration' },
-        { title: 'Troubleshooting', path: '/docs/troubleshooting' },
-      ]
-    },
-    {
-      id: 'examples',
-      title: 'Examples',
-      items: [
-        { title: 'Code Samples', path: '/docs/code-samples' },
-        { title: 'Use Cases', path: '/docs/use-cases' },
-        { title: 'Integrations', path: '/docs/integrations' },
       ]
     }
   ];

@@ -6,34 +6,37 @@ export interface MarkdownDoc {
   path: string;
 }
 
+// Simple document registry - just add new documents here
+const documentRegistry = [
+  { slug: 'introduction', title: 'Introduction', file: 'introduction.md' },
+  { slug: 'quick-start', title: 'Quick Start', file: 'quick-start.md' },
+  { slug: 'api', title: 'API Documentation', file: 'api.md' },
+  { slug: 'configuration', title: 'Configuration', file: 'configuration.md' },
+];
+
 export const loadMarkdownDocs = async (): Promise<MarkdownDoc[]> => {
-  // This is a simplified version - in a real app you'd fetch from a server or build process
-  const docs = [
-    {
-      slug: 'introduction',
-      title: 'Introduction',
-      path: '/docs/introduction',
-      content: await fetch('/docs/introduction.md').then(r => r.text()).catch(() => '# Introduction\n\nContent not found.')
-    },
-    {
-      slug: 'quick-start',
-      title: 'Quick Start',
-      path: '/docs/quick-start',
-      content: await fetch('/docs/quick-start.md').then(r => r.text()).catch(() => '# Quick Start\n\nContent not found.')
-    },
-    {
-      slug: 'api',
-      title: 'API Documentation',
-      path: '/docs/api',
-      content: await fetch('/docs/api.md').then(r => r.text()).catch(() => '# API Documentation\n\nContent not found.')
-    },
-    {
-      slug: 'configuration',
-      title: 'Configuration',
-      path: '/docs/configuration',
-      content: await fetch('/docs/configuration.md').then(r => r.text()).catch(() => '# Configuration\n\nContent not found.')
-    }
-  ];
+  const docs = await Promise.all(
+    documentRegistry.map(async (doc) => {
+      try {
+        const response = await fetch(`/docs/${doc.file}`);
+        const content = response.ok ? await response.text() : `# ${doc.title}\n\nContent not found.`;
+        return {
+          slug: doc.slug,
+          title: doc.title,
+          path: `/docs/${doc.slug}`,
+          content
+        };
+      } catch (error) {
+        console.log(`Failed to load ${doc.file}:`, error);
+        return {
+          slug: doc.slug,
+          title: doc.title,
+          path: `/docs/${doc.slug}`,
+          content: `# ${doc.title}\n\nContent not found.`
+        };
+      }
+    })
+  );
 
   return docs;
 };
