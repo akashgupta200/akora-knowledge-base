@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,19 +36,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -98,4 +92,78 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom styles for documentation */
+.prose {
+  max-width: none;
+}
+
+.prose h1 {
+  @apply text-3xl font-bold mt-8 mb-4;
+}
+
+.prose h2 {
+  @apply text-2xl font-semibold mt-6 mb-3;
+}
+
+.prose h3 {
+  @apply text-xl font-medium mt-4 mb-2;
+}
+
+.prose p {
+  @apply mb-4 leading-relaxed;
+}
+
+.prose ul, .prose ol {
+  @apply mb-4 pl-6;
+}
+
+.prose li {
+  @apply mb-1;
+}
+
+.prose strong {
+  @apply font-semibold;
+}
+
+.prose code {
+  @apply px-1 py-0.5 rounded text-sm font-mono;
+}
+
+.prose pre {
+  @apply mb-4;
+}
+
+.prose pre code {
+  @apply px-0 py-0;
+}
+
+/* Dark mode prose styles */
+.dark .prose {
+  @apply text-gray-100;
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3 {
+  @apply text-white;
+}
+
+.dark .prose code {
+  @apply bg-gray-800 text-gray-100;
+}
+
+.dark .prose strong {
+  @apply text-white;
+}
+
+/* Light mode prose styles */
+.prose code {
+  @apply bg-gray-100 text-gray-900;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
