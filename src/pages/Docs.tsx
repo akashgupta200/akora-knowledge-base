@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { Search, Moon, Sun, BookOpen, ChevronRight, ChevronDown, Home, Github } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Docs = () => {
   const [isDark, setIsDark] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedSections, setExpandedSections] = useState<string[]>(['getting-started', 'tutorials']);
+  const location = useLocation();
 
   useEffect(() => {
     const saved = localStorage.getItem('akora-theme');
@@ -40,6 +41,7 @@ const Docs = () => {
         { title: 'Introduction', path: '/docs/introduction' },
         { title: 'Quick Start', path: '/docs/quick-start' },
         { title: 'Installation', path: '/docs/installation' },
+        { title: 'Setup Guide', path: '/docs/setup' },
       ]
     },
     {
@@ -70,6 +72,158 @@ const Docs = () => {
       ]
     }
   ];
+
+  const getCurrentContent = () => {
+    const path = location.pathname;
+    
+    if (path === '/docs/setup') {
+      return (
+        <div className={`prose max-w-none ${isDark ? 'prose-invert' : ''}`}>
+          <h1>Setup Guide</h1>
+          <p>This guide will help you set up and customize your Akora documentation site.</p>
+          
+          <h2>Adding New Documents</h2>
+          <p>To add new documents to your Akora site:</p>
+          <ol>
+            <li><strong>Create a new page component</strong> in the <code>src/pages</code> directory</li>
+            <li><strong>Add the route</strong> to <code>App.tsx</code></li>
+            <li><strong>Update the navigation</strong> in <code>Docs.tsx</code> to include your new page</li>
+          </ol>
+          
+          <h3>Step 1: Create a New Page</h3>
+          <p>Create a new file like <code>src/pages/YourNewPage.tsx</code>:</p>
+          <pre className={`p-4 rounded-lg overflow-x-auto ${
+            isDark ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-900'
+          }`}>
+            <code>{`import React from 'react';
+
+const YourNewPage = () => {
+  return (
+    <div className="prose max-w-none">
+      <h1>Your New Page</h1>
+      <p>Content goes here...</p>
+    </div>
+  );
+};
+
+export default YourNewPage;`}</code>
+          </pre>
+          
+          <h3>Step 2: Add Route</h3>
+          <p>In <code>App.tsx</code>, add your new route:</p>
+          <pre className={`p-4 rounded-lg overflow-x-auto ${
+            isDark ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-900'
+          }`}>
+            <code>{`import YourNewPage from "./pages/YourNewPage";
+
+// Add this route:
+<Route path="/docs/your-new-page" element={<YourNewPage />} />`}</code>
+          </pre>
+          
+          <h3>Step 3: Update Navigation</h3>
+          <p>In <code>Docs.tsx</code>, add your page to the navigation items:</p>
+          <pre className={`p-4 rounded-lg overflow-x-auto ${
+            isDark ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-900'
+          }`}>
+            <code>{`{
+  title: 'Your New Page',
+  path: '/docs/your-new-page'
+}`}</code>
+          </pre>
+          
+          <h2>Content Guidelines</h2>
+          <ul>
+            <li>Use React components for interactive content</li>
+            <li>Follow the existing styling patterns</li>
+            <li>Include code examples where helpful</li>
+            <li>Test in both light and dark modes</li>
+          </ul>
+        </div>
+      );
+    }
+    
+    // Default content
+    return (
+      <div className={`prose max-w-none ${isDark ? 'prose-invert' : ''}`}>
+        <h1>Welcome to Akora Documentation</h1>
+        
+        <p className={`text-xl mb-8 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+          Your comprehensive guide to getting started and mastering the platform.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-6 mb-12 not-prose">
+          <Link
+            to="/docs/setup"
+            className={`p-6 rounded-xl border transition-all hover:shadow-lg ${
+              isDark 
+                ? 'bg-gray-800 border-gray-700 hover:border-blue-500' 
+                : 'bg-white border-gray-200 hover:border-blue-300'
+            }`}
+          >
+            <h3 className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              🚀 Quick Start
+            </h3>
+            <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+              Get up and running in minutes with our step-by-step guide.
+            </p>
+          </Link>
+
+          <Link
+            to="/docs/tutorials"
+            className={`p-6 rounded-xl border transition-all hover:shadow-lg ${
+              isDark 
+                ? 'bg-gray-800 border-gray-700 hover:border-green-500' 
+                : 'bg-white border-gray-200 hover:border-green-300'
+            }`}
+          >
+            <h3 className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              📚 Tutorials
+            </h3>
+            <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+              Learn through practical examples and hands-on exercises.
+            </p>
+          </Link>
+        </div>
+
+        <h2>Getting Started</h2>
+        <p>
+          This documentation site provides comprehensive guides, tutorials, and reference materials 
+          for developers and users. Each section is carefully organized to help you find the 
+          information you need quickly.
+        </p>
+
+        <h3>Features</h3>
+        <ul>
+          <li><strong>Markdown Support:</strong> Full markdown formatting with extensions</li>
+          <li><strong>Code Highlighting:</strong> Syntax highlighting for multiple languages</li>
+          <li><strong>Rich Media:</strong> Embed images, videos, and interactive content</li>
+          <li><strong>Dark Mode:</strong> Toggle between light and dark themes</li>
+          <li><strong>Search:</strong> Powerful search functionality across all content</li>
+        </ul>
+
+        <h3>Sample SQL Code Block</h3>
+        <pre className={`p-4 rounded-lg overflow-x-auto ${
+          isDark ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-900'
+        }`}>
+          <code className="language-sql">
+{`SELECT users.name, COUNT(orders.id) as order_count
+FROM users
+LEFT JOIN orders ON users.id = orders.user_id
+WHERE users.created_at >= '2024-01-01'
+GROUP BY users.id, users.name
+ORDER BY order_count DESC
+LIMIT 10;`}
+          </code>
+        </pre>
+
+        <h3>Navigation</h3>
+        <p>
+          Use the sidebar to navigate through different sections of the documentation. 
+          Each section can be expanded to show subsections and individual pages.
+        </p>
+      </div>
+    );
+  };
 
   return (
     <div className={`min-h-screen ${isDark ? 'dark bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
@@ -178,9 +332,13 @@ const Docs = () => {
                           key={item.path}
                           to={item.path}
                           className={`block p-2 pl-4 rounded-lg text-sm transition-colors ${
-                            isDark 
-                              ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
-                              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                            location.pathname === item.path
+                              ? isDark 
+                                ? 'bg-blue-900 text-blue-200' 
+                                : 'bg-blue-100 text-blue-800'
+                              : isDark 
+                                ? 'text-gray-300 hover:text-white hover:bg-gray-700' 
+                                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                           }`}
                         >
                           {item.title}
@@ -197,89 +355,7 @@ const Docs = () => {
         {/* Main Content */}
         <main className="flex-1 p-8">
           <div className="max-w-4xl">
-            {/* Welcome Content */}
-            <div className={`${isDark ? 'text-white' : 'text-gray-900'}`}>
-              <h1 className="text-4xl font-bold mb-6">Welcome to Akora Documentation</h1>
-              
-              <p className={`text-xl mb-8 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                Your comprehensive guide to getting started and mastering the platform.
-              </p>
-
-              {/* Quick Start Cards */}
-              <div className="grid md:grid-cols-2 gap-6 mb-12">
-                <Link
-                  to="/docs/quick-start"
-                  className={`p-6 rounded-xl border transition-all hover:shadow-lg ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-700 hover:border-blue-500' 
-                      : 'bg-white border-gray-200 hover:border-blue-300'
-                  }`}
-                >
-                  <h3 className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    🚀 Quick Start
-                  </h3>
-                  <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                    Get up and running in minutes with our step-by-step guide.
-                  </p>
-                </Link>
-
-                <Link
-                  to="/docs/tutorials"
-                  className={`p-6 rounded-xl border transition-all hover:shadow-lg ${
-                    isDark 
-                      ? 'bg-gray-800 border-gray-700 hover:border-green-500' 
-                      : 'bg-white border-gray-200 hover:border-green-300'
-                  }`}
-                >
-                  <h3 className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    📚 Tutorials
-                  </h3>
-                  <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                    Learn through practical examples and hands-on exercises.
-                  </p>
-                </Link>
-              </div>
-
-              {/* Sample Documentation Content */}
-              <div className={`prose max-w-none ${isDark ? 'prose-invert' : ''}`}>
-                <h2>Getting Started</h2>
-                <p>
-                  This documentation site provides comprehensive guides, tutorials, and reference materials 
-                  for developers and users. Each section is carefully organized to help you find the 
-                  information you need quickly.
-                </p>
-
-                <h3>Features</h3>
-                <ul>
-                  <li><strong>Markdown Support:</strong> Full markdown formatting with extensions</li>
-                  <li><strong>Code Highlighting:</strong> Syntax highlighting for multiple languages</li>
-                  <li><strong>Rich Media:</strong> Embed images, videos, and interactive content</li>
-                  <li><strong>Dark Mode:</strong> Toggle between light and dark themes</li>
-                  <li><strong>Search:</strong> Powerful search functionality across all content</li>
-                </ul>
-
-                <h3>Sample SQL Code Block</h3>
-                <pre className={`p-4 rounded-lg overflow-x-auto ${
-                  isDark ? 'bg-gray-900 text-gray-100' : 'bg-gray-100 text-gray-900'
-                }`}>
-                  <code className="language-sql">
-{`SELECT users.name, COUNT(orders.id) as order_count
-FROM users
-LEFT JOIN orders ON users.id = orders.user_id
-WHERE users.created_at >= '2024-01-01'
-GROUP BY users.id, users.name
-ORDER BY order_count DESC
-LIMIT 10;`}
-                  </code>
-                </pre>
-
-                <h3>Navigation</h3>
-                <p>
-                  Use the sidebar to navigate through different sections of the documentation. 
-                  Each section can be expanded to show subsections and individual pages.
-                </p>
-              </div>
-            </div>
+            {getCurrentContent()}
           </div>
         </main>
       </div>
