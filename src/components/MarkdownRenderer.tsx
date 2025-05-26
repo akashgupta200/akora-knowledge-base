@@ -16,8 +16,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, isDark = f
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
-          code({ node, inline, className, children, ...props }) {
+          code({ node, className, children, ...props }: any) {
             const match = /language-(\w+)/.exec(className || '');
+            const inline = !className;
             return !inline && match ? (
               <SyntaxHighlighter
                 style={isDark ? tomorrow : prism}
@@ -33,7 +34,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, isDark = f
               </code>
             );
           },
-          a({ href, children, ...props }) {
+          a({ href, children, ...props }: any) {
             const isExternal = href?.startsWith('http');
             return (
               <a
@@ -47,7 +48,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, isDark = f
               </a>
             );
           },
-          img({ src, alt, ...props }) {
+          img({ src, alt, ...props }: any) {
             return (
               <img
                 src={src}
