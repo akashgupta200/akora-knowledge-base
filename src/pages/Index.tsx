@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Github, Search, FileText, Code, Image, ArrowRight, Zap, Shield, Globe } from 'lucide-react';
+import { BookOpen, Github, ArrowRight, Zap, FileText, Code, Database, Settings, Layers, Users, ShieldCheck, Monitor } from 'lucide-react';
 
 const Index = () => {
   return (
@@ -70,144 +70,104 @@ const Index = () => {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
               <Link 
-                to="/docs/setup" 
+                to="/docs/add-documents" 
                 className="inline-flex items-center border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all font-semibold text-lg"
               >
-                Setup Guide
+                Add Documents Guide
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Documentation Topics Section */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Everything you need for professional documentation
+              Browse Documentation Topics
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Built with modern technologies and best practices for optimal user experience
+              Comprehensive guides and references organized by topic
             </p>
           </div>
           
-          <div className="grid lg:grid-cols-3 gap-8 mb-16">
-            <div className="text-center p-8 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors">
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <FileText className="w-8 h-8 text-blue-600" />
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
+            <Link to="/docs/introduction" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-blue-200">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <BookOpen className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Rich Content Support</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Full markdown support with syntax highlighting, embedded media, and interactive elements
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Getting Started</h3>
+              <p className="text-gray-600 text-center leading-relaxed">
+                Introduction, installation guides, and quick setup tutorials to get you up and running
               </p>
-            </div>
-            
-            <div className="text-center p-8 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors">
-              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Search className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Smart Navigation</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Intuitive sidebar navigation with search functionality and hierarchical organization
-              </p>
-            </div>
-            
-            <div className="text-center p-8 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors">
-              <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Code className="w-8 h-8 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Developer Friendly</h3>
-              <p className="text-gray-600 leading-relaxed">
-                Built with React and modern web technologies for easy customization and maintenance
-              </p>
-            </div>
-          </div>
-
-          {/* Additional Features */}
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="flex items-center space-x-4 p-6 rounded-lg border border-gray-200">
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                <Shield className="w-6 h-6 text-orange-600" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900">Secure & Reliable</h4>
-                <p className="text-gray-600 text-sm">Static site hosting with GitHub Pages</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4 p-6 rounded-lg border border-gray-200">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Globe className="w-6 h-6 text-blue-600" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900">Responsive Design</h4>
-                <p className="text-gray-600 text-sm">Perfect on desktop, tablet, and mobile</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4 p-6 rounded-lg border border-gray-200">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <Image className="w-6 h-6 text-green-600" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900">Rich Media</h4>
-                <p className="text-gray-600 text-sm">Images, videos, and interactive content</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Documentation Sections */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Explore Documentation Sections
-            </h2>
-            <p className="text-xl text-gray-600">
-              Organized content to help you find what you need quickly
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Link to="/docs/setup" className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100">
-              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <BookOpen className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Getting Started</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Learn how to set up, customize, and deploy your documentation site
-              </p>
-              <div className="flex items-center text-blue-600 font-medium group-hover:translate-x-2 transition-transform">
-                Get Started <ArrowRight className="w-4 h-4 ml-2" />
-              </div>
-            </Link>
-            
-            <Link to="/docs/tutorials" className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100">
-              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <Code className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Tutorials & Guides</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Step-by-step tutorials and comprehensive guides for all skill levels
-              </p>
-              <div className="flex items-center text-green-600 font-medium group-hover:translate-x-2 transition-transform">
+              <div className="flex items-center justify-center text-blue-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
                 Learn More <ArrowRight className="w-4 h-4 ml-2" />
               </div>
             </Link>
             
-            <Link to="/docs/reference" className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-gray-100">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <FileText className="w-6 h-6 text-white" />
+            <Link to="/docs/tutorials" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-green-200">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Code className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">API Reference</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Complete API documentation and technical reference materials
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Tutorials & Guides</h3>
+              <p className="text-gray-600 text-center leading-relaxed">
+                Step-by-step tutorials, best practices, and comprehensive learning guides
               </p>
-              <div className="flex items-center text-purple-600 font-medium group-hover:translate-x-2 transition-transform">
+              <div className="flex items-center justify-center text-green-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
+                Explore <ArrowRight className="w-4 h-4 ml-2" />
+              </div>
+            </Link>
+            
+            <Link to="/docs/api" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-purple-200">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <FileText className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">API Reference</h3>
+              <p className="text-gray-600 text-center leading-relaxed">
+                Complete API documentation, endpoints, parameters, and response examples
+              </p>
+              <div className="flex items-center justify-center text-purple-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
                 Browse API <ArrowRight className="w-4 h-4 ml-2" />
+              </div>
+            </Link>
+
+            <Link to="/docs/configuration" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-orange-200">
+              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Settings className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Configuration</h3>
+              <p className="text-gray-600 text-center leading-relaxed">
+                Setup configurations, environment variables, and customization options
+              </p>
+              <div className="flex items-center justify-center text-orange-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
+                Configure <ArrowRight className="w-4 h-4 ml-2" />
+              </div>
+            </Link>
+
+            <Link to="/docs/integrations" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-indigo-200">
+              <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <Layers className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Integrations</h3>
+              <p className="text-gray-600 text-center leading-relaxed">
+                Third-party integrations, plugins, and extension documentation
+              </p>
+              <div className="flex items-center justify-center text-indigo-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
+                Integrate <ArrowRight className="w-4 h-4 ml-2" />
+              </div>
+            </Link>
+
+            <Link to="/docs/troubleshooting" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-red-200">
+              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <ShieldCheck className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Troubleshooting</h3>
+              <p className="text-gray-600 text-center leading-relaxed">
+                Common issues, error messages, debugging guides, and solutions
+              </p>
+              <div className="flex items-center justify-center text-red-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
+                Debug <ArrowRight className="w-4 h-4 ml-2" />
               </div>
             </Link>
           </div>
@@ -223,13 +183,21 @@ const Index = () => {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Dive into comprehensive guides, tutorials, and references to help you succeed
           </p>
-          <Link 
-            to="/docs" 
-            className="inline-flex items-center bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-50 transition-all font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-          >
-            Start Exploring
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link 
+              to="/docs" 
+              className="inline-flex items-center bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-50 transition-all font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+            >
+              Start Exploring
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Link>
+            <Link 
+              to="/docs/add-documents" 
+              className="inline-flex items-center border-2 border-white text-white px-8 py-4 rounded-xl hover:bg-white hover:text-blue-600 transition-all font-semibold text-lg"
+            >
+              Add Content
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -256,13 +224,13 @@ const Index = () => {
                 <Link to="/docs" className="block text-gray-400 hover:text-white transition-colors">
                   Documentation
                 </Link>
-                <Link to="/docs/setup" className="block text-gray-400 hover:text-white transition-colors">
-                  Setup Guide
+                <Link to="/docs/add-documents" className="block text-gray-400 hover:text-white transition-colors">
+                  Add Documents
                 </Link>
                 <Link to="/docs/tutorials" className="block text-gray-400 hover:text-white transition-colors">
                   Tutorials
                 </Link>
-                <Link to="/docs/reference" className="block text-gray-400 hover:text-white transition-colors">
+                <Link to="/docs/api" className="block text-gray-400 hover:text-white transition-colors">
                   API Reference
                 </Link>
               </div>

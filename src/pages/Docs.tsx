@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Search, Moon, Sun, BookOpen, ChevronRight, ChevronDown, Home, Github } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -42,6 +41,7 @@ const Docs = () => {
         { title: 'Quick Start', path: '/docs/quick-start' },
         { title: 'Installation', path: '/docs/installation' },
         { title: 'Setup Guide', path: '/docs/setup' },
+        { title: 'Adding Documents', path: '/docs/add-documents' },
       ]
     },
     {
@@ -89,6 +89,12 @@ const Docs = () => {
             <li><strong>Add the route</strong> to <code>App.tsx</code></li>
             <li><strong>Update the navigation</strong> in <code>Docs.tsx</code> to include your new page</li>
           </ol>
+          
+          <p>
+            <Link to="/docs/add-documents" className="inline-flex items-center text-blue-600 hover:text-blue-800">
+              📚 Read the complete guide on adding documents →
+            </Link>
+          </p>
           
           <h3>Step 1: Create a New Page</h3>
           <p>Create a new file like <code>src/pages/YourNewPage.tsx</code>:</p>
@@ -169,7 +175,7 @@ export default YourNewPage;`}</code>
           </Link>
 
           <Link
-            to="/docs/tutorials"
+            to="/docs/add-documents"
             className={`p-6 rounded-xl border transition-all hover:shadow-lg ${
               isDark 
                 ? 'bg-gray-800 border-gray-700 hover:border-green-500' 
@@ -177,10 +183,10 @@ export default YourNewPage;`}</code>
             }`}
           >
             <h3 className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              📚 Tutorials
+              📚 Add Documents
             </h3>
             <p className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-              Learn through practical examples and hands-on exercises.
+              Learn how to add new topics and subtopics to your documentation.
             </p>
           </Link>
         </div>

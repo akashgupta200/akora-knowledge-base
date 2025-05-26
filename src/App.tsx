@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Docs from "./pages/Docs";
 import NotFound from "./pages/NotFound";
+import AddDocuments from "./pages/AddDocuments";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/docs/quick-start" element={<Docs />} />
           <Route path="/docs/installation" element={<Docs />} />
           <Route path="/docs/setup" element={<Docs />} />
+          <Route path="/docs/add-documents" element={<AddDocuments />} />
           <Route path="/docs/basic-tutorial" element={<Docs />} />
           <Route path="/docs/advanced-concepts" element={<Docs />} />
           <Route path="/docs/best-practices" element={<Docs />} />
