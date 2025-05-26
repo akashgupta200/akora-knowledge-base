@@ -100,6 +100,7 @@ That's it! Your document will automatically be loaded and displayed.`
         { title: 'Quick Start', path: '/docs/quick-start' },
         { title: 'API Documentation', path: '/docs/api' },
         { title: 'Configuration', path: '/docs/configuration' },
+        { title: 'Oracle Backup', path: '/docs/oracle_backup' },
       ]
     }
   ];
