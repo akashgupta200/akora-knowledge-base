@@ -24,6 +24,7 @@ export interface DocumentSubtopic {
 const documentRegistry = [
   // Getting Started
   { slug: 'introduction', title: 'Introduction to Akora', topic: 'Getting Started', file: 'introduction.md' },
+  { slug: 'how-to-add-documents', title: 'How to Add Documents', topic: 'Getting Started', file: 'how-to-add-documents.md' },
   { slug: 'quick-start', title: 'Quick Start Guide', topic: 'Getting Started', file: 'quick-start.md' },
   { slug: 'installation', title: 'Installation', topic: 'Getting Started', file: 'installation.md' },
   
