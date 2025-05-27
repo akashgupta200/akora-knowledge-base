@@ -122,6 +122,7 @@ That's it! Your document will automatically be loaded and displayed.`
         { title: 'Configuration', path: '/docs/configuration' },
         { title: 'Reference Guide', path: '/docs/reference' },
         { title: 'Troubleshooting', path: '/docs/troubleshooting' },
+        { title: 'My Guide', path: '/docs/my-guide' },
       ]
     },
     {
