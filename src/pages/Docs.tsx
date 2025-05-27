@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
-import { Search, Moon, Sun, BookOpen, Home, Github } from 'lucide-react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Search, Moon, Sun, BookOpen, Home } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import DocumentList from '../components/DocumentList';
-import SimpleDocumentEditor from '../components/SimpleDocumentEditor';
+import DocumentEditor from '../components/DocumentEditor';
 import { loadAllDocuments, getDocBySlug, DocumentTopic, MarkdownDoc } from '../utils/markdownLoader';
 
 const Docs = () => {
@@ -113,7 +112,7 @@ const Docs = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <SimpleDocumentEditor isDark={isDark} onSave={loadDocuments} />
+              <DocumentEditor isDark={isDark} onSave={loadDocuments} />
               
               <button
                 onClick={() => setIsDark(!isDark)}
