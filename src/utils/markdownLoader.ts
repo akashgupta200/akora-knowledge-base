@@ -33,6 +33,8 @@ const documentRegistry = [
   { slug: 'tutorials', title: 'Tutorial Hub', file: 'tutorials.md' },
   { slug: 'reference', title: 'Reference Guide', file: 'reference.md' },
   { slug: 'oracle_backup', title: 'Oracle Backup', file: 'oracle_backup.md' },
+  { slug: 'my-guide', title: 'My Guide', file: 'my-guide.md' },
+  
   
   // Document Management
   { slug: 'add-documents', title: 'How to Add Documents', file: 'add-documents.md' },
