@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, Moon, Sun, BookOpen, ChevronRight, ChevronDown, Home, Github } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import MarkdownRenderer from '../components/MarkdownRenderer';
+import DocumentEditor from '../components/DocumentEditor';
 import { getDocBySlug, MarkdownDoc } from '../utils/markdownLoader';
 
 const Docs = () => {
@@ -137,6 +138,12 @@ That's it! Your document will automatically be loaded and displayed.`
     }
   ];
 
+  const handleDocumentSave = (savedDoc: MarkdownDoc) => {
+    setCurrentDoc(savedDoc);
+    // Optionally refresh the page or update navigation
+    window.location.href = savedDoc.path;
+  };
+
   return (
     <div className={`min-h-screen ${isDark ? 'dark bg-gray-900' : 'bg-gray-50'} transition-colors duration-200`}>
       {/* Header */}
@@ -171,6 +178,8 @@ That's it! Your document will automatically be loaded and displayed.`
             </div>
 
             <div className="flex items-center space-x-4">
+              <DocumentEditor isDark={isDark} onSave={handleDocumentSave} />
+              
               <button
                 onClick={() => setIsDark(!isDark)}
                 className={`p-2 rounded-lg transition-colors ${
@@ -214,9 +223,12 @@ That's it! Your document will automatically be loaded and displayed.`
         {/* Sidebar */}
         <aside className={`w-80 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-r min-h-screen sticky top-16 overflow-y-auto`}>
           <div className="p-6">
-            <h2 className={`text-lg font-semibold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Documentation
-            </h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                Documentation
+              </h2>
+              <DocumentEditor isDark={isDark} onSave={handleDocumentSave} />
+            </div>
             
             <nav className="space-y-2">
               {navigationItems.map((section) => (
@@ -267,6 +279,17 @@ That's it! Your document will automatically be loaded and displayed.`
         {/* Main Content */}
         <main className="flex-1 p-8">
           <div className="max-w-4xl">
+            <div className="flex items-center justify-between mb-6">
+              {currentDoc && (
+                <h1 className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                  {currentDoc.title}
+                </h1>
+              )}
+              {currentDoc && (
+                <DocumentEditor doc={currentDoc} isDark={isDark} onSave={handleDocumentSave} />
+              )}
+            </div>
+            
             {loading ? (
               <div className={`text-center py-8 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
                 Loading...
