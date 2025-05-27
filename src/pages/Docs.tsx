@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Search, Moon, Sun, BookOpen, ChevronRight, ChevronDown, Home, Github } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -7,7 +8,7 @@ import { getDocBySlug, MarkdownDoc } from '../utils/markdownLoader';
 const Docs = () => {
   const [isDark, setIsDark] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedSections, setExpandedSections] = useState<string[]>(['getting-started']);
+  const [expandedSections, setExpandedSections] = useState<string[]>(['getting-started', 'tutorials', 'reference', 'examples']);
   const [currentDoc, setCurrentDoc] = useState<MarkdownDoc | null>(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -98,8 +99,38 @@ That's it! Your document will automatically be loaded and displayed.`
       items: [
         { title: 'Introduction', path: '/docs/introduction' },
         { title: 'Quick Start', path: '/docs/quick-start' },
+        { title: 'Installation', path: '/docs/installation' },
+        { title: 'Setup Guide', path: '/docs/setup' },
+        { title: 'Add Documents', path: '/docs/add-documents' },
+      ]
+    },
+    {
+      id: 'tutorials',
+      title: 'Tutorials',
+      items: [
+        { title: 'Tutorial Hub', path: '/docs/tutorials' },
+        { title: 'Basic Tutorial', path: '/docs/basic-tutorial' },
+        { title: 'Advanced Concepts', path: '/docs/advanced-concepts' },
+        { title: 'Best Practices', path: '/docs/best-practices' },
+      ]
+    },
+    {
+      id: 'reference',
+      title: 'Reference',
+      items: [
         { title: 'API Documentation', path: '/docs/api' },
         { title: 'Configuration', path: '/docs/configuration' },
+        { title: 'Reference Guide', path: '/docs/reference' },
+        { title: 'Troubleshooting', path: '/docs/troubleshooting' },
+      ]
+    },
+    {
+      id: 'examples',
+      title: 'Examples & Integration',
+      items: [
+        { title: 'Code Samples', path: '/docs/code-samples' },
+        { title: 'Use Cases', path: '/docs/use-cases' },
+        { title: 'Integrations', path: '/docs/integrations' },
         { title: 'Oracle Backup', path: '/docs/oracle_backup' },
       ]
     }
