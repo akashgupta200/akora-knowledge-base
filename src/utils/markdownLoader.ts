@@ -38,10 +38,7 @@ const documentRegistry = [
   { slug: 'advanced-concepts', title: 'Advanced Concepts', topic: 'Tutorials', subtopic: 'Advanced', file: 'advanced-concepts.md' },
   { slug: 'best-practices', title: 'Best Practices', topic: 'Tutorials', subtopic: 'Advanced', file: 'best-practices.md' },
   
-  // Examples
-  { slug: 'code-samples', title: 'Code Samples', topic: 'Examples', file: 'code-samples.md' },
-  { slug: 'sql-examples', title: 'SQL Query Examples', topic: 'Examples', file: 'sql-examples.md' },
-  { slug: 'integrations', title: 'Third-party Integrations', topic: 'Examples', file: 'integrations.md' },
+
 ];
 
 // Generate default content for documents
