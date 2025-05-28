@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Github, ArrowRight, Zap, FileText, Code } from 'lucide-react';
+import { BookOpen, ArrowRight, Zap, FileText, Code } from 'lucide-react';
 import { loadAllDocuments, DocumentTopic } from '../utils/markdownLoader';
 
 const Index = () => {
@@ -91,14 +91,6 @@ const Index = () => {
               >
                 Browse Docs
               </Link>
-              <a 
-                href="https://github.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
-              >
-                <Github className="w-5 h-5" />
-              </a>
             </div>
           </div>
         </div>
@@ -110,11 +102,11 @@ const Index = () => {
           <div className="text-center max-w-4xl mx-auto mb-16">
             <div className="inline-flex items-center space-x-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-8">
               <Zap className="w-4 h-4" />
-              <span>Built and maintained by Akash Gupta</span>
+              <span>Akash Gupta Documentation Hub</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
-              Professional
+              Akash Gupta
               <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Documentation
               </span>
@@ -217,8 +209,8 @@ const Index = () => {
                 <span className="text-white font-bold text-lg">Akora</span>
               </div>
               <p className="text-gray-400 leading-relaxed">
-                Professional documentation hub built with React, TypeScript, and Tailwind CSS. 
-                Organize and share your knowledge effectively.
+                Documentation hub for comprehensive guides and references.
+                Organize and share knowledge effectively.
               </p>
             </div>
             
@@ -251,9 +243,6 @@ const Index = () => {
                 </p>
                 <p className="text-gray-400 text-sm">
                   © 2024 Akora Documentation Hub
-                </p>
-                <p className="text-gray-400 text-sm">
-                  Powered by React & Tailwind CSS
                 </p>
               </div>
             </div>
