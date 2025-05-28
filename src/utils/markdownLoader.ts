@@ -23,21 +23,33 @@ export interface DocumentSubtopic {
 const documentRegistry = [
   // Getting Started
   { slug: 'introduction', title: 'Introduction to Akora', topic: 'Getting Started', file: 'introduction.md' },
-  { slug: 'how-to-add-documents', title: 'How to Add Documents', topic: 'Getting Started', file: 'how-to-add-documents.md' },
+  { slug: 'how-to-add-documents', title: 'How to Add Documents', topic: 'Getting Started', file: 'contributing.md' },
   { slug: 'quick-start', title: 'Quick Start Guide', topic: 'Getting Started', file: 'quick-start.md' },
   
-  // Development
-  { slug: 'api-guide', title: 'API Development Guide', topic: 'Development', file: 'api-guide.md' },
-  { slug: 'database-setup', title: 'Database Setup', topic: 'Development', file: 'database-setup.md' },
+  // Oracle
+  { slug: 'oracle-setup', title: 'Oracle Database Setup', topic: 'Oracle', file: 'oracle-setup.md' },
+  { slug: 'oracle-backup', title: 'Oracle Backup Strategies', topic: 'Oracle', file: 'oracle-backup.md' },
+  { slug: 'oracle-performance', title: 'Oracle Performance Tuning', topic: 'Oracle', file: 'oracle-performance.md' },
   
-  // Tutorials
-  { slug: 'basic-tutorial', title: 'Basic Tutorial', topic: 'Tutorials', file: 'basic-tutorial.md' },
-  { slug: 'advanced-concepts', title: 'Advanced Concepts', topic: 'Tutorials', file: 'advanced-concepts.md' },
-  { slug: 'best-practices', title: 'Best Practices', topic: 'Tutorials', file: 'best-practices.md' },
-
   // Postgres
+  { slug: 'postgres-installation', title: 'Postgres Installation Guide', topic: 'Postgres', file: 'postgres-installation.md' },
   { slug: 'postgres-backup', title: 'Postgres Backup', topic: 'Postgres', file: 'postgres-backup.md' },
   { slug: 'postgres-restore', title: 'Postgres Restore', topic: 'Postgres', file: 'postgres-restore.md' },
+
+  // AWS
+  { slug: 'aws-ec2-setup', title: 'AWS EC2 Setup Guide', topic: 'AWS', file: 'aws-ec2-setup.md' },
+  { slug: 'aws-rds-configuration', title: 'AWS RDS Configuration', topic: 'AWS', file: 'aws-rds-configuration.md' },
+  { slug: 'aws-s3-management', title: 'AWS S3 Management', topic: 'AWS', file: 'aws-s3-management.md' },
+
+  // Azure
+  { slug: 'azure-vm-deployment', title: 'Azure VM Deployment', topic: 'Azure', file: 'azure-vm-deployment.md' },
+  { slug: 'azure-sql-database', title: 'Azure SQL Database Setup', topic: 'Azure', file: 'azure-sql-database.md' },
+  { slug: 'azure-storage-account', title: 'Azure Storage Account Configuration', topic: 'Azure', file: 'azure-storage-account.md' },
+
+  // OCI
+  { slug: 'oci-compute-instance', title: 'OCI Compute Instance Setup', topic: 'OCI', file: 'oci-compute-instance.md' },
+  { slug: 'oci-autonomous-database', title: 'OCI Autonomous Database', topic: 'OCI', file: 'oci-autonomous-database.md' },
+  { slug: 'oci-object-storage', title: 'OCI Object Storage Management', topic: 'OCI', file: 'oci-object-storage.md' },
 ];
 
 // Generate default content for documents

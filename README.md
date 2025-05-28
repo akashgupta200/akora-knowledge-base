@@ -1,3 +1,4 @@
+
 # Akora Documentation Hub
 
 > A modern, static documentation website built and maintained by Akash Gupta
@@ -81,7 +82,7 @@ const documentRegistry = [
   { 
     slug: 'my-new-guide', 
     title: 'My New Guide', 
-    topic: 'Tutorials', 
+    topic: 'Oracle', 
     file: 'my-new-guide.md' 
   },
 ];
@@ -105,9 +106,11 @@ const documentRegistry = [
 Documents are organized into these topics:
 
 - **Getting Started**: Introduction and setup guides
-- **Development**: Development guides and API references
-- **Tutorials**: Step-by-step tutorials and examples
-- **Postgres**: Database-specific documentation
+- **Oracle**: Oracle Database administration and management
+- **Postgres**: PostgreSQL installation, configuration, and maintenance
+- **AWS**: Amazon Web Services guides and best practices
+- **Azure**: Microsoft Azure platform documentation
+- **OCI**: Oracle Cloud Infrastructure resources
 
 You can add to existing topics or create new ones when adding documentation.
 
@@ -145,11 +148,20 @@ The built application (`npm run build`) can be deployed to any static hosting se
 ### Adding New Topics
 Simply use a new topic name in the document registry - the system will automatically create the topic category.
 
-## 📚 Documentation
+## 📚 Documentation Topics
 
-- [Contributing Guide](CONTRIBUTING.md) - How to add new documentation
-- [Project Structure](PROJECT_STRUCTURE.md) - Detailed file and folder explanation
-- [Markdown Guide](public/docs/how-to-add-documents.md) - Markdown syntax and features
+### Database Technologies
+- **Oracle Database**: Setup, backup strategies, and performance tuning
+- **PostgreSQL**: Installation, configuration, and administration
+
+### Cloud Platforms
+- **AWS**: EC2 setup, RDS configuration, and S3 management
+- **Azure**: Virtual machine deployment, SQL database, and storage
+- **OCI**: Compute instances, autonomous database, and object storage
+
+### Getting Started
+- Quick start guides and introduction materials
+- How to add new documentation
 
 ## 🔐 Access Control
 
