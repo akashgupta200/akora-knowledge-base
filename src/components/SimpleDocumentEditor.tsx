@@ -23,21 +23,12 @@ const topics = [
   'Reference'
 ];
 
-const subtopics = {
-  'Getting Started': ['General'],
-  'Development': ['APIs', 'Database', 'Security', 'General'],
-  'Tutorials': ['Beginner', 'Advanced', 'General'],
-  'Examples': ['General'],
-  'Reference': ['General']
-};
-
 const SimpleDocumentEditor: React.FC<SimpleDocumentEditorProps> = ({ isDark, onSave }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [topic, setTopic] = useState('');
-  const [subtopic, setSubtopic] = useState('');
   const [saving, setSaving] = useState(false);
 
   const generateSlug = (title: string) => {
@@ -69,7 +60,6 @@ SELECT * FROM your_table;
 \`\`\`
 `);
     setTopic('');
-    setSubtopic('');
     setIsPreview(false);
   };
 
@@ -87,7 +77,6 @@ SELECT * FROM your_table;
         title,
         content,
         topic,
-        subtopic: subtopic || 'General',
         createdAt: new Date().toISOString()
       };
 
@@ -146,34 +135,16 @@ SELECT * FROM your_table;
                 onChange={(e) => setTitle(e.target.value)}
                 className={isDark ? 'bg-gray-700 text-white' : ''}
               />
-              <div className="grid grid-cols-2 gap-2">
-                <Select value={topic} onValueChange={(value) => {
-                  setTopic(value);
-                  setSubtopic('General');
-                }}>
-                  <SelectTrigger className={isDark ? 'bg-gray-700 text-white' : ''}>
-                    <SelectValue placeholder="Select Topic" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {topics.map((t) => (
-                      <SelectItem key={t} value={t}>{t}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                
-                {topic && (
-                  <Select value={subtopic} onValueChange={setSubtopic}>
-                    <SelectTrigger className={isDark ? 'bg-gray-700 text-white' : ''}>
-                      <SelectValue placeholder="Subtopic" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {subtopics[topic as keyof typeof subtopics]?.map((s) => (
-                        <SelectItem key={s} value={s}>{s}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              </div>
+              <Select value={topic} onValueChange={setTopic}>
+                <SelectTrigger className={isDark ? 'bg-gray-700 text-white' : ''}>
+                  <SelectValue placeholder="Select Topic" />
+                </SelectTrigger>
+                <SelectContent>
+                  {topics.map((t) => (
+                    <SelectItem key={t} value={t}>{t}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           )}
 
