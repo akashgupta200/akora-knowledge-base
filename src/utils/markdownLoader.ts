@@ -39,7 +39,7 @@ const documentRegistry = [
 
   // Postgres
   { slug: 'postgres-backup', title: 'Postgres Backup', topic: 'Postgres', file: 'postgres-backup.md' },
-  { slug: 'postgres restore', title: 'Postgres Restore', topic: 'Postgres', file: 'postgres-recovery.md' },
+  { slug: 'postgres-restore', title: 'Postgres Restore', topic: 'Postgres', file: 'postgres-restore.md' },
   
 ];
 
