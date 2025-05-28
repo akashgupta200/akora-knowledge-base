@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Label } from './ui/label';
 import { Plus, Save } from 'lucide-react';
-import { MarkdownDoc, saveDocument } from '../utils/markdownLoader';
+import { MarkdownDoc, saveDocument, getAllTopics } from '../utils/markdownLoader';
 import { useToast } from '../hooks/use-toast';
 
 interface DocumentEditorProps {
@@ -20,8 +20,13 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ isDark, onSave }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [topic, setTopic] = useState('');
-  const [subtopic, setSubtopic] = useState('');
+  const [availableTopics, setAvailableTopics] = useState<string[]>([]);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const topics = getAllTopics();
+    setAvailableTopics(topics);
+  }, []);
 
   const generateSlug = (title: string) => {
     return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -43,7 +48,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ isDark, onSave }) => {
       title,
       content,
       topic,
-      subtopic: subtopic || undefined,
       createdAt: new Date().toISOString(),
     };
 
@@ -59,7 +63,6 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ isDark, onSave }) => {
       setTitle('');
       setContent('');
       setTopic('');
-      setSubtopic('');
       setIsOpen(false);
       
       // Refresh documents
@@ -98,22 +101,26 @@ const DocumentEditor: React.FC<DocumentEditorProps> = ({ isDark, onSave }) => {
             </div>
             <div>
               <Label htmlFor="topic">Topic *</Label>
-              <Input
-                id="topic"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                placeholder="e.g. Getting Started, Development"
-              />
+              <Select value={topic} onValueChange={setTopic}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select or create topic" />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableTopics.map((topicOption) => (
+                    <SelectItem key={topicOption} value={topicOption}>
+                      {topicOption}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="mt-2">
+                <Input
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  placeholder="Or type a new topic name"
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <Label htmlFor="subtopic">Subtopic (Optional)</Label>
-            <Input
-              id="subtopic"
-              value={subtopic}
-              onChange={(e) => setSubtopic(e.target.value)}
-              placeholder="e.g. APIs, Database, Security"
-            />
           </div>
           <div>
             <Label htmlFor="content">Content *</Label>

@@ -4,7 +4,6 @@ export interface MarkdownDoc {
   title: string;
   content: string;
   topic: string;
-  subtopic?: string;
   createdAt: string;
 }
 
@@ -20,7 +19,7 @@ export interface DocumentSubtopic {
   docs: MarkdownDoc[];
 }
 
-// Document registry organized by topics
+// Document registry organized by topics (without subtopics)
 const documentRegistry = [
   // Getting Started
   { slug: 'introduction', title: 'Introduction to Akora', topic: 'Getting Started', file: 'introduction.md' },
@@ -29,25 +28,21 @@ const documentRegistry = [
   { slug: 'installation', title: 'Installation', topic: 'Getting Started', file: 'installation.md' },
   
   // Development
-  { slug: 'api-guide', title: 'API Development Guide', topic: 'Development', subtopic: 'APIs', file: 'api-guide.md' },
-  { slug: 'database-setup', title: 'Database Setup', topic: 'Development', subtopic: 'Database', file: 'database-setup.md' },
-  { slug: 'authentication', title: 'Authentication', topic: 'Development', subtopic: 'Security', file: 'authentication.md' },
+  { slug: 'api-guide', title: 'API Development Guide', topic: 'Development', file: 'api-guide.md' },
+  { slug: 'database-setup', title: 'Database Setup', topic: 'Development', file: 'database-setup.md' },
+  { slug: 'authentication', title: 'Authentication', topic: 'Development', file: 'authentication.md' },
   
   // Tutorials
-  { slug: 'basic-tutorial', title: 'Basic Tutorial', topic: 'Tutorials', subtopic: 'Beginner', file: 'basic-tutorial.md' },
-  { slug: 'advanced-concepts', title: 'Advanced Concepts', topic: 'Tutorials', subtopic: 'Advanced', file: 'advanced-concepts.md' },
-  { slug: 'best-practices', title: 'Best Practices', topic: 'Tutorials', subtopic: 'Advanced', file: 'best-practices.md' },
-  
-
+  { slug: 'basic-tutorial', title: 'Basic Tutorial', topic: 'Tutorials', file: 'basic-tutorial.md' },
+  { slug: 'advanced-concepts', title: 'Advanced Concepts', topic: 'Tutorials', file: 'advanced-concepts.md' },
+  { slug: 'best-practices', title: 'Best Practices', topic: 'Tutorials', file: 'best-practices.md' },
 ];
 
 // Generate default content for documents
-const getDefaultContent = (title: string, topic: string, subtopic?: string) => {
-  const topicSection = subtopic ? `${topic} > ${subtopic}` : topic;
-  
+const getDefaultContent = (title: string, topic: string) => {
   return `# ${title}
 
-*Topic: ${topicSection}*
+*Topic: ${topic}*
 
 ## Overview
 
@@ -68,7 +63,6 @@ Here's a basic example:
 const example = {
   title: "${title}",
   topic: "${topic}",
-  ${subtopic ? `subtopic: "${subtopic}",` : ''}
   status: "active"
 };
 
@@ -81,7 +75,6 @@ console.log("Working with:", example.title);
 -- Example SQL query
 SELECT * FROM documents 
 WHERE topic = '${topic}'
-${subtopic ? `AND subtopic = '${subtopic}'` : ''}
 ORDER BY created_at DESC;
 \`\`\`
 
@@ -89,7 +82,7 @@ ORDER BY created_at DESC;
 
 - [Introduction](/docs/introduction)
 - [Quick Start](/docs/quick-start)
-- [Code Samples](/docs/code-samples)
+- [How to Add Documents](/docs/how-to-add-documents)
 
 ---
 
@@ -122,6 +115,15 @@ const saveCustomDocuments = (docs: MarkdownDoc[]): void => {
   }
 };
 
+// Get all available topics from both predefined and custom documents
+export const getAllTopics = (): string[] => {
+  const predefinedTopics = [...new Set(documentRegistry.map(doc => doc.topic))];
+  const customDocs = getCustomDocuments();
+  const customTopics = [...new Set(customDocs.map(doc => doc.topic))];
+  
+  return [...new Set([...predefinedTopics, ...customTopics])].sort();
+};
+
 // Load all documents and organize by topics
 export const loadAllDocuments = async (): Promise<DocumentTopic[]> => {
   // Clear cache to ensure fresh data
@@ -137,7 +139,7 @@ export const loadAllDocuments = async (): Promise<DocumentTopic[]> => {
         if (response.ok) {
           content = await response.text();
         } else {
-          content = getDefaultContent(doc.title, doc.topic, doc.subtopic);
+          content = getDefaultContent(doc.title, doc.topic);
         }
         
         const docData: MarkdownDoc = {
@@ -145,7 +147,6 @@ export const loadAllDocuments = async (): Promise<DocumentTopic[]> => {
           title: doc.title,
           content,
           topic: doc.topic,
-          subtopic: doc.subtopic,
           createdAt: new Date().toISOString()
         };
         
@@ -155,9 +156,8 @@ export const loadAllDocuments = async (): Promise<DocumentTopic[]> => {
         const fallbackDoc: MarkdownDoc = {
           slug: doc.slug,
           title: doc.title,
-          content: getDefaultContent(doc.title, doc.topic, doc.subtopic),
+          content: getDefaultContent(doc.title, doc.topic),
           topic: doc.topic,
-          subtopic: doc.subtopic,
           createdAt: new Date().toISOString()
         };
         docCache.set(doc.slug, fallbackDoc);
@@ -175,7 +175,7 @@ export const loadAllDocuments = async (): Promise<DocumentTopic[]> => {
   // Combine all documents
   const allDocs = [...predefinedDocs, ...customDocs];
 
-  // Organize documents by topics and subtopics
+  // Organize documents by topics
   const topicsMap = new Map<string, DocumentTopic>();
   
   allDocs.forEach(doc => {
@@ -189,30 +189,17 @@ export const loadAllDocuments = async (): Promise<DocumentTopic[]> => {
     
     const topic = topicsMap.get(doc.topic)!;
     
-    if (doc.subtopic) {
-      let subtopic = topic.subtopics.find(s => s.title === doc.subtopic);
-      if (!subtopic) {
-        subtopic = {
-          id: doc.subtopic.toLowerCase().replace(/\s+/g, '-'),
-          title: doc.subtopic,
-          docs: []
-        };
-        topic.subtopics.push(subtopic);
-      }
-      subtopic.docs.push(doc);
-    } else {
-      // Create a default subtopic for docs without subtopics
-      let generalSubtopic = topic.subtopics.find(s => s.title === 'General');
-      if (!generalSubtopic) {
-        generalSubtopic = {
-          id: 'general',
-          title: 'General',
-          docs: []
-        };
-        topic.subtopics.push(generalSubtopic);
-      }
-      generalSubtopic.docs.push(doc);
+    // Create a single subtopic for all documents in a topic
+    let generalSubtopic = topic.subtopics.find(s => s.title === 'General');
+    if (!generalSubtopic) {
+      generalSubtopic = {
+        id: 'general',
+        title: 'General',
+        docs: []
+      };
+      topic.subtopics.push(generalSubtopic);
     }
+    generalSubtopic.docs.push(doc);
   });
 
   return Array.from(topicsMap.values());
@@ -245,7 +232,7 @@ export const getDocBySlug = async (slug: string): Promise<MarkdownDoc | null> =>
     if (response.ok) {
       content = await response.text();
     } else {
-      content = getDefaultContent(docConfig.title, docConfig.topic, docConfig.subtopic);
+      content = getDefaultContent(docConfig.title, docConfig.topic);
     }
     
     const docData: MarkdownDoc = {
@@ -253,7 +240,6 @@ export const getDocBySlug = async (slug: string): Promise<MarkdownDoc | null> =>
       title: docConfig.title,
       content,
       topic: docConfig.topic,
-      subtopic: docConfig.subtopic,
       createdAt: new Date().toISOString()
     };
     
@@ -263,9 +249,8 @@ export const getDocBySlug = async (slug: string): Promise<MarkdownDoc | null> =>
     const fallbackDoc: MarkdownDoc = {
       slug: docConfig.slug,
       title: docConfig.title,
-      content: getDefaultContent(docConfig.title, docConfig.topic, docConfig.subtopic),
+      content: getDefaultContent(docConfig.title, docConfig.topic),
       topic: docConfig.topic,
-      subtopic: docConfig.subtopic,
       createdAt: new Date().toISOString()
     };
     docCache.set(slug, fallbackDoc);
@@ -285,7 +270,6 @@ export const saveDocument = async (doc: Partial<MarkdownDoc>): Promise<boolean> 
       title: doc.title,
       content: doc.content,
       topic: doc.topic,
-      subtopic: doc.subtopic,
       createdAt: doc.createdAt || new Date().toISOString()
     };
     

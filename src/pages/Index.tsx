@@ -1,9 +1,74 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Github, ArrowRight, Zap, FileText, Code, Database, Settings, Layers, Users, ShieldCheck, Monitor } from 'lucide-react';
+import { BookOpen, Github, ArrowRight, Zap, FileText, Code } from 'lucide-react';
+import { loadAllDocuments, DocumentTopic } from '../utils/markdownLoader';
 
 const Index = () => {
+  const [topics, setTopics] = useState<DocumentTopic[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadTopics = async () => {
+      try {
+        const allTopics = await loadAllDocuments();
+        setTopics(allTopics);
+      } catch (error) {
+        console.error('Failed to load topics:', error);
+      }
+      setLoading(false);
+    };
+
+    loadTopics();
+  }, []);
+
+  const getTopicIcon = (topicTitle: string) => {
+    const title = topicTitle.toLowerCase();
+    if (title.includes('getting started') || title.includes('introduction')) {
+      return BookOpen;
+    } else if (title.includes('development') || title.includes('api')) {
+      return Code;
+    } else {
+      return FileText;
+    }
+  };
+
+  const getTopicColor = (index: number) => {
+    const colors = [
+      'from-blue-500 to-blue-600',
+      'from-green-500 to-green-600', 
+      'from-purple-500 to-purple-600',
+      'from-orange-500 to-orange-600',
+      'from-indigo-500 to-indigo-600',
+      'from-red-500 to-red-600'
+    ];
+    return colors[index % colors.length];
+  };
+
+  const getTopicHoverColor = (index: number) => {
+    const colors = [
+      'hover:border-blue-200',
+      'hover:border-green-200',
+      'hover:border-purple-200', 
+      'hover:border-orange-200',
+      'hover:border-indigo-200',
+      'hover:border-red-200'
+    ];
+    return colors[index % colors.length];
+  };
+
+  const getTopicTextColor = (index: number) => {
+    const colors = [
+      'text-blue-600',
+      'text-green-600',
+      'text-purple-600',
+      'text-orange-600', 
+      'text-indigo-600',
+      'text-red-600'
+    ];
+    return colors[index % colors.length];
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -70,10 +135,10 @@ const Index = () => {
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
               <Link 
-                to="/docs/add-documents" 
+                to="/docs/how-to-add-documents" 
                 className="inline-flex items-center border-2 border-gray-200 text-gray-700 px-8 py-4 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all font-semibold text-lg"
               >
-                Add Documents Guide
+                How to Add Documents
               </Link>
             </div>
           </div>
@@ -92,112 +157,51 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
-            <Link to="/docs/introduction" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-blue-200">
-              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <BookOpen className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Getting Started</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Introduction, installation guides, and quick setup tutorials to get you up and running
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="text-lg text-gray-600">Loading topics...</div>
+            </div>
+          ) : topics.length > 0 ? (
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8">
+              {topics.map((topic, index) => {
+                const IconComponent = getTopicIcon(topic.title);
+                const firstDoc = topic.subtopics[0]?.docs[0];
+                const docCount = topic.subtopics.reduce((total, subtopic) => total + subtopic.docs.length, 0);
+                
+                return (
+                  <Link 
+                    key={topic.id} 
+                    to={firstDoc ? `/docs/${firstDoc.slug}` : '/docs'} 
+                    className={`group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 ${getTopicHoverColor(index)}`}
+                  >
+                    <div className={`w-16 h-16 bg-gradient-to-r ${getTopicColor(index)} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform`}>
+                      <IconComponent className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">{topic.title}</h3>
+                    <p className="text-gray-600 text-center leading-relaxed mb-4">
+                      {docCount} document{docCount !== 1 ? 's' : ''} available
+                    </p>
+                    <div className={`flex items-center justify-center ${getTopicTextColor(index)} font-medium group-hover:translate-x-2 transition-transform`}>
+                      Browse <ArrowRight className="w-4 h-4 ml-2" />
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-lg text-gray-600 mb-4">
+                No documentation topics available yet.
               </p>
-              <div className="flex items-center justify-center text-blue-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
-                Learn More <ArrowRight className="w-4 h-4 ml-2" />
-              </div>
-            </Link>
-            
-            <Link to="/docs/tutorials" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-green-200">
-              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <Code className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Tutorials & Guides</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Step-by-step tutorials, best practices, and comprehensive learning guides
-              </p>
-              <div className="flex items-center justify-center text-green-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
-                Explore <ArrowRight className="w-4 h-4 ml-2" />
-              </div>
-            </Link>
-            
-            <Link to="/docs/api" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-purple-200">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <FileText className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">API Reference</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Complete API documentation, endpoints, parameters, and response examples
-              </p>
-              <div className="flex items-center justify-center text-purple-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
-                Browse API <ArrowRight className="w-4 h-4 ml-2" />
-              </div>
-            </Link>
-
-            <Link to="/docs/configuration" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-orange-200">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <Settings className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Configuration</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Setup configurations, environment variables, and customization options
-              </p>
-              <div className="flex items-center justify-center text-orange-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
-                Configure <ArrowRight className="w-4 h-4 ml-2" />
-              </div>
-            </Link>
-
-            <Link to="/docs/integrations" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-indigo-200">
-              <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <Layers className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Integrations</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Third-party integrations, plugins, and extension documentation
-              </p>
-              <div className="flex items-center justify-center text-indigo-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
-                Integrate <ArrowRight className="w-4 h-4 ml-2" />
-              </div>
-            </Link>
-
-            <Link to="/docs/troubleshooting" className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border border-gray-100 hover:border-red-200">
-              <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <ShieldCheck className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">Troubleshooting</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Common issues, error messages, debugging guides, and solutions
-              </p>
-              <div className="flex items-center justify-center text-red-600 font-medium mt-6 group-hover:translate-x-2 transition-transform">
-                Debug <ArrowRight className="w-4 h-4 ml-2" />
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-blue-600 to-purple-600">
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to explore the documentation?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Dive into comprehensive guides, tutorials, and references to help you succeed
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              to="/docs" 
-              className="inline-flex items-center bg-white text-blue-600 px-8 py-4 rounded-xl hover:bg-gray-50 transition-all font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-            >
-              Start Exploring
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Link>
-            <Link 
-              to="/docs/add-documents" 
-              className="inline-flex items-center border-2 border-white text-white px-8 py-4 rounded-xl hover:bg-white hover:text-blue-600 transition-all font-semibold text-lg"
-            >
-              Add Content
-            </Link>
-          </div>
+              <Link 
+                to="/docs" 
+                className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                Add Your First Document
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -213,40 +217,43 @@ const Index = () => {
                 <span className="text-white font-bold text-lg">Akora</span>
               </div>
               <p className="text-gray-400 leading-relaxed">
-                Professional documentation hub built and maintained by Akash Gupta. 
-                Empowering developers with comprehensive resources.
+                Professional documentation hub built with React, TypeScript, and Tailwind CSS. 
+                Organize and share your knowledge effectively.
               </p>
             </div>
             
             <div>
-              <h3 className="font-semibold text-white mb-4">Quick Links</h3>
+              <h3 className="font-semibold text-white mb-4">Documentation</h3>
               <div className="space-y-2">
                 <Link to="/docs" className="block text-gray-400 hover:text-white transition-colors">
-                  Documentation
+                  Browse All Docs
                 </Link>
-                <Link to="/docs/add-documents" className="block text-gray-400 hover:text-white transition-colors">
-                  Add Documents
+                <Link to="/docs/how-to-add-documents" className="block text-gray-400 hover:text-white transition-colors">
+                  How to Add Documents
                 </Link>
-                <Link to="/docs/tutorials" className="block text-gray-400 hover:text-white transition-colors">
-                  Tutorials
-                </Link>
-                <Link to="/docs/api" className="block text-gray-400 hover:text-white transition-colors">
-                  API Reference
-                </Link>
+                {topics.slice(0, 3).map(topic => (
+                  <Link 
+                    key={topic.id} 
+                    to={`/docs`} 
+                    className="block text-gray-400 hover:text-white transition-colors"
+                  >
+                    {topic.title}
+                  </Link>
+                ))}
               </div>
             </div>
             
             <div>
-              <h3 className="font-semibold text-white mb-4">Connect</h3>
+              <h3 className="font-semibold text-white mb-4">About</h3>
               <div className="space-y-2">
-                <a href="https://github.com" className="block text-gray-400 hover:text-white transition-colors">
-                  GitHub
-                </a>
+                <p className="text-gray-400 text-sm">
+                  Built and maintained by Akash Gupta
+                </p>
                 <p className="text-gray-400 text-sm">
                   © 2024 Akora Documentation Hub
                 </p>
                 <p className="text-gray-400 text-sm">
-                  Built with React & Tailwind CSS
+                  Powered by React & Tailwind CSS
                 </p>
               </div>
             </div>

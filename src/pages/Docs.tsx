@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Search, Moon, Sun, BookOpen, Home, Plus } from 'lucide-react';
+import { Search, Moon, Sun, BookOpen, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import MarkdownRenderer from '../components/MarkdownRenderer';
 import DocumentEditor from '../components/DocumentEditor';
@@ -70,8 +70,7 @@ const Docs = () => {
       ...subtopic,
       docs: subtopic.docs.filter(doc => 
         doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        doc.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (doc.subtopic && doc.subtopic.toLowerCase().includes(searchQuery.toLowerCase()))
+        doc.topic.toLowerCase().includes(searchQuery.toLowerCase())
       )
     })).filter(subtopic => subtopic.docs.length > 0)
   })).filter(topic => topic.subtopics.length > 0);
@@ -127,25 +126,20 @@ const Docs = () => {
                       {topic.title}
                     </h3>
                     {topic.subtopics.map((subtopic) => (
-                      <div key={subtopic.id} className="ml-2 mb-3">
-                        <h4 className={`text-xs font-medium mb-1 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                          {subtopic.title}
-                        </h4>
-                        <div className="space-y-1">
-                          {subtopic.docs.map((doc) => (
-                            <Link
-                              key={doc.slug}
-                              to={`/docs/${doc.slug}`}
-                              className={`block px-2 py-1 text-sm rounded transition-colors ${
-                                currentDoc?.slug === doc.slug
-                                  ? isDark ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'
-                                  : isDark ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'
-                              }`}
-                            >
-                              {doc.title}
-                            </Link>
-                          ))}
-                        </div>
+                      <div key={subtopic.id} className="space-y-1">
+                        {subtopic.docs.map((doc) => (
+                          <Link
+                            key={doc.slug}
+                            to={`/docs/${doc.slug}`}
+                            className={`block px-2 py-1 text-sm rounded transition-colors ${
+                              currentDoc?.slug === doc.slug
+                                ? isDark ? 'bg-blue-900 text-blue-200' : 'bg-blue-100 text-blue-800'
+                                : isDark ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-600 hover:bg-gray-100'
+                            }`}
+                          >
+                            {doc.title}
+                          </Link>
+                        ))}
                       </div>
                     ))}
                   </div>
@@ -238,7 +232,7 @@ const Docs = () => {
                     {currentDoc.title}
                   </h1>
                   <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {currentDoc.topic} {currentDoc.subtopic && `• ${currentDoc.subtopic}`}
+                    {currentDoc.topic}
                   </p>
                 </div>
                 
