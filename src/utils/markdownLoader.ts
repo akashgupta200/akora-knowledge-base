@@ -19,18 +19,16 @@ export interface DocumentSubtopic {
   docs: MarkdownDoc[];
 }
 
-// Document registry organized by topics (without subtopics)
+// Document registry - add your documents here
 const documentRegistry = [
   // Getting Started
   { slug: 'introduction', title: 'Introduction to Akora', topic: 'Getting Started', file: 'introduction.md' },
   { slug: 'how-to-add-documents', title: 'How to Add Documents', topic: 'Getting Started', file: 'how-to-add-documents.md' },
   { slug: 'quick-start', title: 'Quick Start Guide', topic: 'Getting Started', file: 'quick-start.md' },
-  { slug: 'installation', title: 'Installation', topic: 'Getting Started', file: 'installation.md' },
   
   // Development
   { slug: 'api-guide', title: 'API Development Guide', topic: 'Development', file: 'api-guide.md' },
   { slug: 'database-setup', title: 'Database Setup', topic: 'Development', file: 'database-setup.md' },
-  { slug: 'authentication', title: 'Authentication', topic: 'Development', file: 'authentication.md' },
   
   // Tutorials
   { slug: 'basic-tutorial', title: 'Basic Tutorial', topic: 'Tutorials', file: 'basic-tutorial.md' },
@@ -40,7 +38,6 @@ const documentRegistry = [
   // Postgres
   { slug: 'postgres-backup', title: 'Postgres Backup', topic: 'Postgres', file: 'postgres-backup.md' },
   { slug: 'postgres-restore', title: 'Postgres Restore', topic: 'Postgres', file: 'postgres-restore.md' },
-  
 ];
 
 // Generate default content for documents
@@ -97,36 +94,9 @@ ORDER BY created_at DESC;
 // Cache for documents
 const docCache = new Map<string, MarkdownDoc>();
 
-// Local storage key for custom documents
-const CUSTOM_DOCS_KEY = 'akora-custom-documents';
-
-// Get custom documents from localStorage
-const getCustomDocuments = (): MarkdownDoc[] => {
-  try {
-    const stored = localStorage.getItem(CUSTOM_DOCS_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch (error) {
-    console.error('Failed to load custom documents:', error);
-    return [];
-  }
-};
-
-// Save custom documents to localStorage
-const saveCustomDocuments = (docs: MarkdownDoc[]): void => {
-  try {
-    localStorage.setItem(CUSTOM_DOCS_KEY, JSON.stringify(docs));
-  } catch (error) {
-    console.error('Failed to save custom documents:', error);
-  }
-};
-
-// Get all available topics from both predefined and custom documents
+// Get all available topics
 export const getAllTopics = (): string[] => {
-  const predefinedTopics = [...new Set(documentRegistry.map(doc => doc.topic))];
-  const customDocs = getCustomDocuments();
-  const customTopics = [...new Set(customDocs.map(doc => doc.topic))];
-  
-  return [...new Set([...predefinedTopics, ...customTopics])].sort();
+  return [...new Set(documentRegistry.map(doc => doc.topic))].sort();
 };
 
 // Load all documents and organize by topics
@@ -134,8 +104,7 @@ export const loadAllDocuments = async (): Promise<DocumentTopic[]> => {
   // Clear cache to ensure fresh data
   docCache.clear();
   
-  // Load predefined documents
-  const predefinedDocs = await Promise.all(
+  const allDocs = await Promise.all(
     documentRegistry.map(async (doc) => {
       try {
         const response = await fetch(`/docs/${doc.file}`);
@@ -170,15 +139,6 @@ export const loadAllDocuments = async (): Promise<DocumentTopic[]> => {
       }
     })
   );
-
-  // Load custom documents
-  const customDocs = getCustomDocuments();
-  customDocs.forEach(doc => {
-    docCache.set(doc.slug, doc);
-  });
-
-  // Combine all documents
-  const allDocs = [...predefinedDocs, ...customDocs];
 
   // Organize documents by topics
   const topicsMap = new Map<string, DocumentTopic>();
@@ -216,15 +176,6 @@ export const getDocBySlug = async (slug: string): Promise<MarkdownDoc | null> =>
     return docCache.get(slug)!;
   }
   
-  // Check custom documents first
-  const customDocs = getCustomDocuments();
-  const customDoc = customDocs.find(doc => doc.slug === slug);
-  if (customDoc) {
-    docCache.set(slug, customDoc);
-    return customDoc;
-  }
-  
-  // Check predefined documents
   const docConfig = documentRegistry.find(doc => doc.slug === slug);
   if (!docConfig) {
     return null;
@@ -260,48 +211,5 @@ export const getDocBySlug = async (slug: string): Promise<MarkdownDoc | null> =>
     };
     docCache.set(slug, fallbackDoc);
     return fallbackDoc;
-  }
-};
-
-// Save document (for editor)
-export const saveDocument = async (doc: Partial<MarkdownDoc>): Promise<boolean> => {
-  try {
-    if (!doc.slug || !doc.title || !doc.content || !doc.topic) {
-      throw new Error('Missing required fields');
-    }
-
-    const docData: MarkdownDoc = {
-      slug: doc.slug,
-      title: doc.title,
-      content: doc.content,
-      topic: doc.topic,
-      createdAt: doc.createdAt || new Date().toISOString()
-    };
-    
-    // Add to cache
-    docCache.set(doc.slug, docData);
-    
-    // Get existing custom documents
-    const customDocs = getCustomDocuments();
-    
-    // Check if document already exists
-    const existingIndex = customDocs.findIndex(d => d.slug === doc.slug);
-    
-    if (existingIndex >= 0) {
-      // Update existing document
-      customDocs[existingIndex] = docData;
-    } else {
-      // Add new document
-      customDocs.push(docData);
-    }
-    
-    // Save to localStorage
-    saveCustomDocuments(customDocs);
-    
-    console.log(`Document saved: ${doc.slug}`);
-    return true;
-  } catch (error) {
-    console.error(`Failed to save document:`, error);
-    return false;
   }
 };

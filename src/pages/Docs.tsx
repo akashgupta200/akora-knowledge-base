@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Search, Moon, Sun, BookOpen, Home } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import MarkdownRenderer from '../components/MarkdownRenderer';
-import DocumentEditor from '../components/DocumentEditor';
 import { loadAllDocuments, getDocBySlug, DocumentTopic, MarkdownDoc } from '../utils/markdownLoader';
 
 const Docs = () => {
@@ -151,7 +150,7 @@ const Docs = () => {
               </div>
             ) : (
               <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                No documents available. Add your first document to get started!
+                No documents available.
               </div>
             )}
           </div>
@@ -188,8 +187,6 @@ const Docs = () => {
               </div>
 
               <div className="flex items-center space-x-4">
-                <DocumentEditor isDark={isDark} onSave={loadDocuments} />
-                
                 <button
                   onClick={() => setIsDark(!isDark)}
                   className={`p-2 rounded-lg transition-colors ${
@@ -280,10 +277,9 @@ const Docs = () => {
                   </div>
                 ) : (
                   <div className="text-center py-12">
-                    <p className={`text-lg mb-4 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-                      No documents available. Add your first document to get started!
+                    <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                      No documents available.
                     </p>
-                    <DocumentEditor isDark={isDark} onSave={loadDocuments} />
                   </div>
                 )}
               </div>
