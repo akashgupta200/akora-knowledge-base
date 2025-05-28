@@ -4,7 +4,7 @@
 2. Second Query
 3. Third Query
    
-## First Query
+## Second Query
 
 ```sql
 select count(*) from dba_users;
