@@ -36,6 +36,11 @@ const documentRegistry = [
   { slug: 'basic-tutorial', title: 'Basic Tutorial', topic: 'Tutorials', file: 'basic-tutorial.md' },
   { slug: 'advanced-concepts', title: 'Advanced Concepts', topic: 'Tutorials', file: 'advanced-concepts.md' },
   { slug: 'best-practices', title: 'Best Practices', topic: 'Tutorials', file: 'best-practices.md' },
+
+  // Postgres
+  { slug: 'postgres-backup', title: 'Postgres Backup', topic: 'Postgres', file: 'postgres-backup.md' },
+  { slug: 'postgres restore', title: 'Postgres Restore', topic: 'Postgres', file: 'postgres-recovery.md' },
+  
 ];
 
 // Generate default content for documents
