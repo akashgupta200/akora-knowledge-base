@@ -30,6 +30,7 @@ const documentRegistry = [
   { slug: 'oracle-setup', title: 'Oracle Database Setup', topic: 'Oracle', file: 'oracle-setup.md' },
   { slug: 'oracle-backup', title: 'Oracle Backup Strategies', topic: 'Oracle', file: 'oracle-backup.md' },
   { slug: 'oracle-performance', title: 'Oracle Performance Tuning', topic: 'Oracle', file: 'oracle-performance.md' },
+   { slug: 'oracle-performances', title: 'Oracle Performance Tuning Tips/Tricks', topic: 'Oracle', file: 'oracle_performance.md' },
    { slug: 'oracle-queries', title: 'Oracle Queries', topic: 'Oracle', file: 'oracle-queries.md' },
   
   // Postgres
